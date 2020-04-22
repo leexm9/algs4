@@ -16,13 +16,20 @@ public class AVLTree<T extends Comparable<? super T>> {
 
     private Node<T> root;
 
+    public AVLTree() {
+    }
+
+    public Node<T> getRoot() {
+        return root;
+    }
+
     public Node<T> find(T data) {
         Node<T> node = root;
         while (node != null) {
-            int i = node.data.compareTo(data);
+            int i = data.compareTo(node.data);
             if (i == 0) {
                 break;
-            } else if (i > 0) {
+            } else if (i < 0) {
                 node = node.left;
             } else {
                 node = node.right;
@@ -197,10 +204,6 @@ public class AVLTree<T extends Comparable<? super T>> {
         node.height = Math.max(this.getHeight(node.left), this.getHeight(node.right)) + 1;
         left.height = Math.max(this.getHeight(left.left), this.getHeight(left.right)) + 1;
         return left;
-    }
-
-    public Node<T> getRoot() {
-        return root;
     }
 
     private class Node<T extends Comparable<? super T>> {

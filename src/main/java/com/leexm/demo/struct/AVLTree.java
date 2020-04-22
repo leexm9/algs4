@@ -14,10 +14,10 @@ import java.util.Stack;
  */
 public class AVLTree<T extends Comparable<? super T>> {
 
-    private AVLNode<T> root;
+    private Node<T> root;
 
-    public AVLNode<T> find(T data) {
-        AVLNode<T> node = root;
+    public Node<T> find(T data) {
+        Node<T> node = root;
         while (node != null) {
             int i = node.data.compareTo(data);
             if (i == 0) {
@@ -48,9 +48,9 @@ public class AVLTree<T extends Comparable<? super T>> {
      * @param data
      * @return
      */
-    private AVLNode<T> insert(AVLNode<T> node, T data) {
+    private Node<T> insert(Node<T> node, T data) {
         if (node == null) {
-            return new AVLNode<>(data);
+            return new Node<>(data);
         }
         int i = data.compareTo(node.data);
         // 插入左子树
@@ -75,7 +75,7 @@ public class AVLTree<T extends Comparable<? super T>> {
         root = delete(root, data);
     }
 
-    private AVLNode<T> delete(AVLNode<T> node, T data) {
+    private Node<T> delete(Node<T> node, T data) {
         int diff = data.compareTo(node.data);
         if (diff < 0) {
             node.left = delete(node.left, data);
@@ -83,7 +83,7 @@ public class AVLTree<T extends Comparable<? super T>> {
             node.right = delete(node.right, data);
         } else {
             if (node.left != null && node.right != null) {
-                AVLNode<T> min = findMin(node.right);
+                Node<T> min = findMin(node.right);
                 node.data = min.data;
                 // 转为删除右子树中的最小节点
                 node.right = delete(node.right, min.data);
@@ -102,8 +102,8 @@ public class AVLTree<T extends Comparable<? super T>> {
      * @param node
      * @return
      */
-    private AVLNode<T> findMin(AVLNode<T> node) {
-        AVLNode<T> p = node;
+    private Node<T> findMin(Node<T> node) {
+        Node<T> p = node;
         while (p != null && p.left != null) {
             p = p.left;
         }
@@ -116,33 +116,33 @@ public class AVLTree<T extends Comparable<? super T>> {
      * @param node
      * @return
      */
-    private AVLNode<T> balance(AVLNode<T> node) {
+    private Node<T> balance(Node<T> node) {
         int diff = getHeight(node.left) - getHeight(node.right);
         // 左子树导致的不平衡
         if (diff > 1) {
-            AVLNode<T> left = node.left;
+            Node<T> left = node.left;
             diff = getHeight(left.left) - getHeight(left.right);
             if (diff < 0) {
-                node.left = rightRotation(node.right);
+                node.left = leftRotation(node.right);
             }
-            node = leftRotation(node);
+            node = rightRotation(node);
         }
         // 右子树导致的不平衡
         else if (diff < -1) {
-            AVLNode<T> right = node.right;
+            Node<T> right = node.right;
             diff = getHeight(right.left) - getHeight(right.right);
             if (diff > 0) {
-                node.right = leftRotation(node.left);
+                node.right = rightRotation(node.left);
             }
-            node = rightRotation(node);
+            node = leftRotation(node);
         }
         return node;
     }
 
     public List<T> inOrder() {
         List<T> list = new ArrayList<>();
-        AVLNode<T> node = root;
-        Stack<AVLNode<T>> stack = new Stack<>();
+        Node<T> node = root;
+        Stack<Node<T>> stack = new Stack<>();
         while (node != null || !stack.isEmpty()) {
             if (node != null) {
                 stack.push(node);
@@ -161,19 +161,19 @@ public class AVLTree<T extends Comparable<? super T>> {
      *
      * @return
      */
-    private int getHeight(AVLNode<T> node) {
+    private int getHeight(Node<T> node) {
         return node == null ? -1 : node.height;
     }
 
     /**
-     * 右旋调整，RR 型
+     * 向左旋调整，RR 型
      * node 节点的右子树导致的不平衡
      *
      * @param node
      * @return  调整后这棵树的根节点
      */
-    private AVLNode<T> rightRotation(AVLNode<T> node) {
-        AVLNode<T> right = node.right;
+    private Node<T> leftRotation(Node<T> node) {
+        Node<T> right = node.right;
         node.right = right.left;
         right.left = node;
         // 更新节点高度
@@ -183,14 +183,14 @@ public class AVLTree<T extends Comparable<? super T>> {
     }
 
     /**
-     * 左旋调整，LL 型
+     * 向右旋调整，LL 型
      * node 节点的左子树导致的不平衡
      *
      * @param node
      * @return  调整后这棵树的根节点
      */
-    private AVLNode<T> leftRotation(AVLNode<T> node) {
-        AVLNode<T> left = node.left;
+    private Node<T> rightRotation(Node<T> node) {
+        Node<T> left = node.left;
         node.left = left.right;
         left.right = node;
         // 更新节点的高度
@@ -199,24 +199,23 @@ public class AVLTree<T extends Comparable<? super T>> {
         return left;
     }
 
-    public AVLNode<T> getRoot() {
+    public Node<T> getRoot() {
         return root;
     }
 
-    class AVLNode<T extends Comparable<? super T>> {
+    private class Node<T extends Comparable<? super T>> {
         private T data;
-        private AVLNode<T> left;
-        private AVLNode<T> right;
+        private Node<T> left, right;
         // 节点的高度
         private int height;
 
-        public AVLNode(T data) {
+        public Node(T data) {
             this.data = data;
         }
 
         @Override
         public String toString() {
-            return String.format("AVLNode{data=%s, left=%s, right=%s}", data,
+            return String.format("Node{data=%s, left=%s, right=%s}", data,
                     left != null ? left.data : null,
                     right != null ? right.data : null);
         }

@@ -1,7 +1,5 @@
 package com.leexm.demo.struct;
 
-import java.util.Comparator;
-
 /**
  * 单向链表
  *

@@ -170,7 +170,7 @@ public class Sorts {
             while (i <= j && nums[i] <= base) {
                 i++;
             }
-            while (i <= j && nums[j] >= base) {
+            while (i <= j && nums[j] > base) {
                 j--;
             }
             if (i < j) {
@@ -240,9 +240,9 @@ public class Sorts {
 //        Sorts.insertionSort(nums);
 //        Sorts.bubbleSort(nums);
 //        Sorts.mergeSort(nums);
-//        Sorts.quickSort(nums);
+        Sorts.quickSort(nums);
 //        Sorts.countingSort(nums);
-        Sorts.shellSort(nums);
+//        Sorts.shellSort(nums);
         System.out.println(Arrays.toString(nums));
 
         nums = new int[]{1,2,3,4,5,6,7,8,9, 10};
@@ -250,9 +250,9 @@ public class Sorts {
 //        Sorts.insertionSort(nums);
 //        Sorts.bubbleSort(nums);
 //        Sorts.mergeSort(nums);
-//        Sorts.quickSort(nums);
+        Sorts.quickSort(nums);
 //        Sorts.countingSort(nums);
-        Sorts.shellSort(nums);
+//        Sorts.shellSort(nums);
         System.out.println(Arrays.toString(nums));
 
         nums = new int[]{10,9,8,7,6,5,4,3,2,1};
@@ -260,8 +260,8 @@ public class Sorts {
 //        Sorts.insertionSort(nums);
 //        Sorts.bubbleSort(nums);
 //        Sorts.mergeSort(nums);
-//        Sorts.quickSort(nums);
-        Sorts.countingSort(nums);
+        Sorts.quickSort(nums);
+//        Sorts.countingSort(nums);
 //        Sorts.shellSort(nums);
         System.out.println(Arrays.toString(nums));
     }

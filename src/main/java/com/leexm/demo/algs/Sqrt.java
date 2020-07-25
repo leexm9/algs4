@@ -16,7 +16,7 @@ public class Sqrt {
      * @return
      */
     public static double square(double n, double precision) {
-        double low, high, mid, tmp = n;
+        double low, high, mid = 0;
         if (n == 1) {
             return n;
         } else if (n > 1) {
@@ -26,25 +26,40 @@ public class Sqrt {
             low = n;
             high = 1;
         }
-        mid = low + (high - low) / 2;
         while (low <= high && Math.abs(high - low) >= precision) {
-            tmp = Math.pow(mid, 2);
-            if (tmp < n) {
+            mid = low + (high - low) / 2;
+            double tmp = Math.pow(mid, 2);
+            if (tmp == n || Math.abs(tmp - n) < precision) {
+                return mid;
+            } else if (tmp < n) {
                 low = mid;
             } else if (tmp > n) {
                 high = mid;
-            } else if (Math.abs(tmp - n) < precision) {
-                return mid;
             }
-            mid = low + (high - low) / 2;
         }
         return mid;
     }
 
+    /**
+     * 牛顿迭代法求平方根
+     *
+     * @param n
+     * @param precision
+     * @return
+     */
+    public static double newSqrt(double n, double precision) {
+        double rs = n;
+        while ((rs - n / rs) > precision) {
+            rs = (rs + n / rs) / 2;
+        }
+        return rs;
+    }
+
     public static void main(String[] args) {
-        System.out.println(square(5, 0.00001));
-        System.out.println(Math.pow(2.236064910888672, 2));
-        System.out.println(Math.pow(2.236064910888673, 2));
+        System.out.println(square(5, 0.001));
+        System.out.println(newSqrt(5, 0.001));
+        System.out.println((5 - Math.pow(2.2353515625, 2)) * 1000);
+        System.out.println((5 - Math.pow(2.2360688956433634, 2)) * 1000);
     }
 
 }

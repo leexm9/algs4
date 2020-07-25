@@ -84,9 +84,8 @@ public class Serachs {
             } else {
                 if (mid == 0 || arr[mid -1] != k) {
                     return mid;
-                } else {
-                    high = mid - 1;
                 }
+                high = mid - 1;
             }
         }
         return -1;

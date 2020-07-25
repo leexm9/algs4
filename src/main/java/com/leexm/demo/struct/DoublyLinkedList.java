@@ -1,7 +1,5 @@
 package com.leexm.demo.struct;
 
-import java.util.LinkedList;
-
 /**
  * 双向链表
  *

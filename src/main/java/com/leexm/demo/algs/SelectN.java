@@ -14,7 +14,8 @@ public class SelectN {
 
     public static void main(String[] args) {
         int[] data = {1, 2, 3, 4, 5};
-        List<int[]> list = selectN(data, 2);
+        List<int[]> list = selectN(data, 3);
+        System.out.println(list.size());
         list.forEach(item -> System.out.println(Arrays.toString(item)));
     }
 
@@ -42,40 +43,33 @@ public class SelectN {
             }
             return list;
         }
-        // 计算结果个数
-        int sum = 1;
-        for (int i = 0; i < n; i++) {
-            sum = sum * (len - i);
-        }
-        for (int i = 1; i <= n; i++) {
-            sum = sum / i;
-        }
 
         List<int[]> arrays = new ArrayList<>();
         arrays.add(source);
         for (int i = 1; i < n; i++) {
-            int[] temp = new int[len];
+            int[] temp = new int[len - i];
             System.arraycopy(source, i, temp, 0, len - i);
-            System.arraycopy(source, 0, temp, len - i, i);
             arrays.add(temp);
         }
-        do {
-            for (int i = 0; i < len; i++) {
-                int[] temp = new int[n];
-                for (int j = 0; j < n; j++) {
-                    temp[j] = arrays.get(j)[i];
+        int index = n - 1;
+        while (index > 0) {
+            // 根据最后一个数组取元素
+            while (arrays.get(n - 1).length > 0) {
+                for (int i = 0; i < arrays.get(n - 1).length; i++) {
+                    int j = i;
+                    int[] temp = arrays.stream().mapToInt(item -> item[j]).toArray();
+                    list.add(temp);
                 }
-                list.add(temp);
-                sum--;
-                if (sum == 0) {
-                    break;
-                }
+                arrays.set(n - 1, cycleArray(arrays.get(n - 1)));
             }
-            for (int i = 1; i < n; i++) {
-                int[] array = arrays.get(i);
-                cycleArray(array);
+            arrays.set(index, cycleArray(arrays.get(index)));
+            for (int i = index + 1; i < n; i++) {
+                arrays.set(i, cycleArray(arrays.get(i - 1)));
             }
-        } while (sum > 0);
+            if (arrays.get(index).length == 0) {
+                index--;
+            }
+        }
         return list;
     }
 
@@ -84,12 +78,13 @@ public class SelectN {
      * 
      * @param array
      */
-    private static void cycleArray(int[] array) {
-        int top = array[0];
-        if (array.length - 2 >= 0) {
-            System.arraycopy(array, 1, array, 0, array.length - 2);
+    private static int[] cycleArray(int[] array) {
+        if (array.length == 0) {
+            return new int[0];
         }
-        array[array.length - 1] = top;
+        int[] temp = new int[array.length - 1];
+        System.arraycopy(array, 1, temp, 0, temp.length);
+        return temp;
     }
 
 }

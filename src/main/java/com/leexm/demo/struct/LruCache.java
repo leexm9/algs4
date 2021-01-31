@@ -1,7 +1,5 @@
 package com.leexm.demo.struct;
 
-import java.util.HashSet;
-
 /**
  * 单向链表实现
  *

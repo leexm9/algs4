@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 贪心算法
+ * 保证每次操作都是局部最优的，从而使最后得到的结果是全局最优的。
  *
  * @author leexm
  * @date 2021-01-29 00:15
@@ -42,6 +43,7 @@ public class Greedy {
         return sum;
     }
 
+
     /**
      * 135. 分发糖果
      * https://leetcode-cn.com/problems/candy/
@@ -73,6 +75,7 @@ public class Greedy {
         }
         return sum;
     }
+
 
     /**
      * 435. 无重叠区间

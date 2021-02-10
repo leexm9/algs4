@@ -1,6 +1,6 @@
 package com.leexm.demo.leetcode;
 
-import com.leexm.demo.InputUtils;
+import com.leexm.demo.util.InputUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

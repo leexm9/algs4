@@ -1,4 +1,4 @@
-package com.leexm.demo;
+package com.leexm.demo.util;
 
 /**
  * @author leexm

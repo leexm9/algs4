@@ -15,7 +15,7 @@ public class Backtrace {
     public static void main(String[] args) {
         Backtrace backtrace = new Backtrace();
 
-        List<List<String>> rs = backtrace.solveNQueens(5);
+        List<List<String>> rs = backtrace.solveNQueens2(5);
         System.out.println(rs.size());
         System.out.println(rs);
     }
@@ -28,18 +28,17 @@ public class Backtrace {
      * @param nums
      * @return
      */
-    public List<List<Integer>> permute(int[] nums) {
+    public List<List<Integer>> permute1(int[] nums) {
         if (nums.length == 0) {
             return new ArrayList<>();
         }
         List<List<Integer>> rs = new ArrayList<>();
-//        rs.add(Arrays.stream(nums).boxed().collect(Collectors.toList()));
-//        for (int i = 0; i < nums.length - 1; i++) {
-//            for (int j = i + 1; j < nums.length; j++) {
-//                this.nextPermute1(nums, i, j, rs);
-//            }
-//        }
-        this.permuteNext2(nums, 0, rs);
+        rs.add(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                this.nextPermute1(nums, i, j, rs);
+            }
+        }
         return rs;
     }
 
@@ -52,6 +51,22 @@ public class Backtrace {
             }
         }
         this.swap(nums, idx1, idx2);
+    }
+
+    /**
+     * 46. 全排列
+     * https://leetcode-cn.com/problems/permutations/
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute2(int[] nums) {
+        if (nums.length == 0) {
+            return new ArrayList<>();
+        }
+        List<List<Integer>> rs = new ArrayList<>();
+        this.permuteNext2(nums, 0, rs);
+        return rs;
     }
 
     private void permuteNext2(int[] nums, int index, List<List<Integer>> list) {
@@ -154,7 +169,7 @@ public class Backtrace {
      * @param n
      * @return
      */
-    public List<List<String>> solveNQueens(int n) {
+    public List<List<String>> solveNQueens1(int n) {
         int[][] dirs = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
         int[][] visited = new int[n][n];
         List<List<String>> result = new ArrayList<>();
@@ -165,15 +180,15 @@ public class Backtrace {
         return result;
     }
 
-    private void placeN(int[][] visited, int[][] dirs, int n, int i, List<List<String>> result) {
+    private void placeN(int[][] visited, int[][] dirs, int n, int i, List<List<String>> solutions) {
         this.setVisited(visited, dirs, n++, i);
         if (n == visited.length) {
-            this.queenResult(visited, result);
+            this.queenResult(visited, solutions);
             return;
         }
         for (int j = 0; j < visited.length; j++) {
             if (visited[n][j] == 0) {
-                this.placeN(visited, dirs, n, j, result);
+                this.placeN(visited, dirs, n, j, solutions);
                 this.releaseVisited(visited, dirs, n, j);
             }
         }
@@ -229,21 +244,56 @@ public class Backtrace {
         result.add(temp);
     }
 
+    /**
+     * 51. N 皇后
+     * https://leetcode-cn.com/problems/n-queens/
+     *
+     * @param n
+     * @return
+     */
+    public List<List<String>> solveNQueens2(int n) {
+        List<List<String>> result = new ArrayList<>();
+        int[][] visited = new int[n][n];
+        // 列上的皇后
+        boolean[] col = new boolean[n];
+        // 右斜列上的皇后
+        boolean[] rdiag = new boolean[2 * n - 1];
+        // 左斜列上的皇后
+        boolean[] ldiag = new boolean[2 * n - 1];
+        for (int i = 0; i < n; i++) {
+            this.placeN(visited, col, rdiag, ldiag, 0, i, result);
+        }
+        return result;
+    }
+
+    private void placeN(int[][] visited, boolean[] col, boolean[] rdiag, boolean[] ldiag,
+                        int r, int c, List<List<String>> solutions) {
+        if (r >= col.length || c >= col.length) {
+            return;
+        }
+        // (n, i) 对应的右、左斜列下标
+        int ridx = r + c;
+        int lidx = r + col.length - 1 - c;
+
+        if (!col[c] && !rdiag[ridx] && !ldiag[lidx]) {
+            visited[r][c] = 1;
+            if (r == col.length - 1) {
+                this.queenResult(visited, solutions);
+            }
+
+            col[c] = rdiag[ridx] = ldiag[lidx] = true;
+            for (int i = 0; i < col.length; i++) {
+                this.placeN(visited, col, rdiag, ldiag, r + 1, i, solutions);
+            }
+            visited[r][c] = 0;
+            col[c] = rdiag[ridx] = ldiag[lidx] = false;
+        }
+    }
+
     private void swap(int[]nums, int i, int j) {
         int temp = nums[i];
         nums[i] = nums[j];
         nums[j] = temp;
-    }
-
-    private void printMatrix(int[][] mat) {
-        for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[i].length; j++) {
-                System.out.print(mat[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
 }

@@ -1,5 +1,7 @@
 package com.leexm.demo.leetcode;
 
+import com.leexm.demo.util.Format;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +18,7 @@ public class DFSearch {
         DFSearch dfs = new DFSearch();
 
         int[][] grid = {{1,0,0,1},{0,1,1,0},{0,1,1,1},{1,0,1,1}};
-        dfs.printMatrix(grid);
+        Format.printMatrix(grid);
         System.out.println(dfs.findCircleNum(grid));
     }
 
@@ -71,7 +73,6 @@ public class DFSearch {
             if (isConnected[i][i] == 1) {
                 circleNum++;
                 this.findNextConnected(isConnected, i);
-                printMatrix(isConnected);
             }
         }
         return circleNum;
@@ -157,17 +158,6 @@ public class DFSearch {
                 this.atlanticNextScan(matrix, waterVisited, dir, r, c);
             }
         }
-    }
-
-    private void printMatrix(int[][] mat) {
-        for (int i = 0; i < mat.length; i++) {
-            for (int j = 0; j < mat[i].length; j++) {
-                System.out.print(mat[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
 }

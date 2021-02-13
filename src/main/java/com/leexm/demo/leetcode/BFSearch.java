@@ -3,7 +3,6 @@ package com.leexm.demo.leetcode;
 import com.leexm.demo.util.Format;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 广度优先搜索
@@ -19,7 +18,7 @@ public class BFSearch {
         String endWord = "tax";
         List<String> wordList = Arrays.asList("ted","tex","red","tax","tad","den","rex","pee");
 
-        System.out.println(bfSearch.findLadders(beginWord, endWord, wordList));
+        System.out.println(bfSearch.findLadders2(beginWord, endWord, wordList));
     }
 
     /**
@@ -111,7 +110,67 @@ public class BFSearch {
      * @param wordList
      * @return
      */
-    public List<List<String>> findLadders(String beginWord, String endWord, List<String> wordList) {
+    public List<List<String>> findLadders1(String beginWord, String endWord, List<String> wordList) {
+        List<List<String>> result = new ArrayList<>();
+
+        // 单个字符场景
+        if (beginWord.length() == 1) {
+            result.add(Arrays.asList(beginWord, endWord));
+            return result;
+        }
+
+        Set<String> dict = new HashSet<>(wordList);
+        // 不包含目标单词，直接返回
+        if (!dict.contains(endWord)) {
+            return result;
+        }
+
+        dict.remove(beginWord);
+        Map<String, List<String>> nextMap = new HashMap<>();
+
+        Set<String> words = new HashSet<>();
+        words.add(beginWord);
+
+        boolean found = false;
+        while (!words.isEmpty() && !found) {
+            Set<String> nextLevelWords = new HashSet<>();
+            for (String str : words) {
+                for (int i = 0; i < str.length(); i++) {
+                    for (int j = 0; j < 26; j++) {
+                        String temp = this.replaceChar(str, i, (char)(j + 'a'));
+                        if (!dict.contains(temp)) {
+                            continue;
+                        }
+                        nextMap.computeIfAbsent(str, k -> new ArrayList<>()).add(temp);
+                        if (endWord.equals(temp)) {
+                            found = true;
+                        }
+                        nextLevelWords.add(temp);
+                    }
+                }
+            }
+            words = nextLevelWords;
+            dict.removeAll(nextLevelWords);
+        }
+        if (!found) {
+            return result;
+        }
+        List<String> path = new ArrayList<>();
+        path.add(beginWord);
+        this.backtracking(beginWord, endWord, nextMap, path, result);
+
+        return result;
+    }
+
+    /**
+     * 126. 单词接龙 II https://leetcode-cn.com/problems/word-ladder-ii/
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public List<List<String>> findLadders2(String beginWord, String endWord, List<String> wordList) {
         List<List<String>> result = new ArrayList<>();
 
         // 单个字符场景
@@ -136,71 +195,38 @@ public class BFSearch {
         right.add(endWord);
 
         boolean reversed = false, found = false;
-        while (!left.isEmpty()) {
-            Set<String> temp = new HashSet<>();
+        while (!left.isEmpty() && !found) {
+            Set<String> nextLevelWords = new HashSet<>();
             for (String str : left) {
                 for (int i = 0; i < str.length(); i++) {
                     for (int j = 0; j < 26; j++) {
                         String ns = this.replaceChar(str, i, (char)(j + 'a'));
                         if (right.contains(ns)) {
                             if (reversed) {
-                                List<String> strs = nextMap.get(ns);
-                                if (strs == null) {
-                                    strs = new ArrayList<>();
-                                    strs.add(str);
-                                    nextMap.put(ns, strs);
-                                } else {
-                                    strs.add(str);
-                                }
+                                nextMap.computeIfAbsent(ns, k -> new ArrayList<>()).add(str);
                             } else {
-                                List<String> strs = nextMap.get(str);
-                                if (strs == null) {
-                                    strs = new ArrayList<>();
-                                    strs.add(ns);
-                                    nextMap.put(str, strs);
-                                } else {
-                                    strs.add(ns);
-                                }
+                                nextMap.computeIfAbsent(str, k -> new ArrayList<>()).add(ns);
                             }
                             found = true;
-                        }
-
-                        if (dict.contains(ns)) {
+                        } else if (dict.contains(ns)) {
                             if (reversed) {
-                                List<String> strs = nextMap.get(ns);
-                                if (strs == null) {
-                                    strs = new ArrayList<>();
-                                    strs.add(str);
-                                    nextMap.put(ns, strs);
-                                } else {
-                                    strs.add(str);
-                                }
+                                nextMap.computeIfAbsent(ns, k -> new ArrayList<>()).add(str);
                             } else {
-                                List<String> strs = nextMap.get(str);
-                                if (strs == null) {
-                                    strs = new ArrayList<>();
-                                    strs.add(ns);
-                                    nextMap.put(str, strs);
-                                } else {
-                                    strs.add(ns);
-                                }
+                                nextMap.computeIfAbsent(str, k -> new ArrayList<>()).add(ns);
                             }
-                            temp.add(ns);
+                            nextLevelWords.add(ns);
                         }
                     }
                 }
             }
-            if (found) {
-                break;
-            }
-            dict.removeAll(temp);
-            if (temp.size() <= right.size()) {
-                left = temp;
+            if (nextLevelWords.size() <= right.size()) {
+                left = nextLevelWords;
             } else {
                 reversed = !reversed;
                 left = right;
-                right = temp;
+                right = nextLevelWords;
             }
+            dict.removeAll(nextLevelWords);
         }
 
         if (found) {

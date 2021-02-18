@@ -17,7 +17,8 @@ public class DpSubsequence {
     }
 
     /**
-     * 300. 最长递增子序列 https://leetcode-cn.com/problems/longest-increasing-subsequence/
+     * 300. 最长递增子序列
+     * https://leetcode-cn.com/problems/longest-increasing-subsequence/
      *
      * @param nums
      * @return
@@ -75,7 +76,6 @@ public class DpSubsequence {
                 this.replace(list, nums[i]);
             }
         }
-        System.out.println(list);
         return list.size();
     }
 
@@ -135,13 +135,6 @@ public class DpSubsequence {
     /**
      * 1143. 最长公共子序列
      * https://leetcode-cn.com/problems/longest-common-subsequence/
-     * 状态定义： dp[i][j] 表示text1[0~i-1]和text2[0~j-1]的最长公共子序列长度
-     * dp[0][0]等于0，等于dp数组总体往后挪了一个，免去了判断出界
-     * 转移方程： text1[i-1] == text2[j-1]
-     * 当前位置匹配上了: dp[i][j]=dp[i-1][j-1]+1 text1[i-1] ！= text2[j-1]
-     * 当前位置没匹配上了 ：dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
-     * basecase: 任何一个字符串为0时都是零，初始化时候就完成了basecase是赋值
-     *
      *
      * @param text1
      * @param text2

@@ -184,7 +184,7 @@ public class BinSearchTree<T extends Comparable<? super T>> {
         System.out.println(list);
         System.out.println(searchTree.getRoot().data);
 
-        System.out.println("---------min/max-----------");
+        System.out.println("---------top/top-----------");
         System.out.println(searchTree.findMin());
         System.out.println(searchTree.findMax());
     }

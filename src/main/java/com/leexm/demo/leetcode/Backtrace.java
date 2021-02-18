@@ -15,6 +15,8 @@ public class Backtrace {
     public static void main(String[] args) {
         Backtrace backtrace = new Backtrace();
 
+        System.out.println(backtrace.permute2(new int[]{1, 2, 3, 4}));
+
         List<List<String>> rs = backtrace.solveNQueens2(5);
         System.out.println(rs.size());
         System.out.println(rs);
@@ -76,7 +78,6 @@ public class Backtrace {
         }
         for (int i = index; i < nums.length; i++) {
             this.swap(nums, index, i);
-            System.out.println(String.format("index:%d:%d - %s", index, i, Arrays.toString(nums)));
             this.permuteNext2(nums, index + 1, list);
             this.swap(nums, index, i);
         }

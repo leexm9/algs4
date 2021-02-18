@@ -20,7 +20,8 @@ public class BFSearch {
     }
 
     /**
-     * 934. 最短的桥 https://leetcode-cn.com/problems/shortest-bridge/
+     * 934. 最短的桥
+     * https://leetcode-cn.com/problems/shortest-bridge/
      *
      * @param A
      * @return
@@ -101,7 +102,8 @@ public class BFSearch {
     }
 
     /**
-     * 126. 单词接龙 II https://leetcode-cn.com/problems/word-ladder-ii/
+     * 126. 单词接龙 II
+     * https://leetcode-cn.com/problems/word-ladder-ii/
      *
      * @param beginWord
      * @param endWord
@@ -161,7 +163,8 @@ public class BFSearch {
     }
 
     /**
-     * 126. 单词接龙 II https://leetcode-cn.com/problems/word-ladder-ii/
+     * 126. 单词接龙 II
+     * https://leetcode-cn.com/problems/word-ladder-ii/
      *
      * @param beginWord
      * @param endWord

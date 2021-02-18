@@ -3,7 +3,9 @@ package com.leexm.demo.struct;
 import java.util.Comparator;
 
 /**
- * 最大堆 1、是一个完全二叉树 2、堆中每一个节点的值都必须大于等于其子树中每个节点的值
+ * 最大堆：
+ *  1、是一个完全二叉树
+ *  2、堆中每一个节点的值都必须大于等于其子树中每个节点的值
  *
  * @author leexm
  * @date 2020-04-22 15:25
@@ -49,14 +51,14 @@ public class MaxHeap<T extends Comparable<? super T>> {
      *
      * @return
      */
-    public T max() throws NoSuchMethodException {
+    public T top() throws NoSuchMethodException {
         if (size < 1) {
             throw new NoSuchMethodException("heap is empty");
         }
         return (T)elements[1];
     }
 
-    public T deleteMax() throws NoSuchMethodException {
+    public T pop() throws NoSuchMethodException {
         T max = null;
         if (size < 1) {
             throw new NoSuchMethodException("heap is empty");
@@ -142,14 +144,14 @@ public class MaxHeap<T extends Comparable<? super T>> {
         heap.insert(88);
         heap.insert(19);
 
-        System.out.println(heap.deleteMax());
-        System.out.println(heap.deleteMax());
-        System.out.println(heap.deleteMax());
-        System.out.println(heap.deleteMax());
-        System.out.println(heap.deleteMax());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
 
         heap.insert(12);
-        System.out.println(heap.deleteMax());
+        System.out.println(heap.pop());
     }
 
 }

@@ -1,5 +1,8 @@
 package com.leexm.demo.leetcode;
 
+import com.leexm.demo.struct.MinHeap;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +16,10 @@ import java.util.stream.Collectors;
  */
 public class Sorts {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchMethodException {
         Sorts sorts = new Sorts();
-        int[] nums = {3,2,1,5,6,4};
-        System.out.println(sorts.findKthLargest(nums, 2));
+        int[] nums = {1,1,1,2,2,3};
+        System.out.println(Arrays.toString(sorts.topKFrequent2(nums, 2)));
     }
 
 
@@ -75,7 +78,7 @@ public class Sorts {
      * @param k
      * @return
      */
-    public int[] topKFrequent(int[] nums, int k) {
+    public int[] topKFrequent1(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int item : nums) {
             Integer sum = map.get(item);
@@ -87,6 +90,37 @@ public class Sorts {
         int[] rs = new int[k];
         for (int i = 0; i < k; i++) {
             rs[i] = entries.get(i).getKey();
+        }
+        return rs;
+    }
+
+
+    public int[] topKFrequent2(int[] nums, int k) throws NoSuchMethodException {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int item : nums) {
+            Integer sum = map.get(item);
+            sum = sum == null ? 1 : sum + 1;
+            map.put(item, sum);
+        }
+
+        MinHeap<Integer> minHeap = new MinHeap<>(k);
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            if (minHeap.size() == k) {
+                int key = minHeap.top();
+                if (map.get(key) > entry.getValue()) {
+                    continue;
+                }
+                minHeap.pop();
+                minHeap.insert(entry.getKey());
+            } else {
+                minHeap.insert(entry.getKey());
+            }
+        }
+        int[] rs = new int[k];
+        int i = 0;
+        while (minHeap.size() != 0) {
+            rs[i] = minHeap.pop();
+            i++;
         }
         return rs;
     }

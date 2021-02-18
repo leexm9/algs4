@@ -1,11 +1,9 @@
 package com.leexm.demo.struct;
 
-import java.util.Comparator;
-
 /**
- * 最小堆
+ * 最小堆：
  *  1、是一个完全二叉树
- *  2、堆中每一个节点的值都必须大于小于等于其子树中每个节点的值
+ *  2、堆中每一个节点的值都必须不大于其子树中每个节点的值
  *
  * @author leexm
  * @date 2020-04-22 15:25
@@ -28,8 +26,12 @@ public class MinHeap<T extends Comparable<? super T>> {
         this.elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public MinHeap(int capacity, Comparator<? super T> comparator) {
+    public MinHeap(int capacity) {
         this.elements = new Object[capacity + 1];
+    }
+
+    public int size() {
+        return size;
     }
 
     /**
@@ -48,18 +50,18 @@ public class MinHeap<T extends Comparable<? super T>> {
     }
 
     /**
-     * 获取堆中最大元素
+     * 获取堆中最小的元素
      *
      * @return
      */
-    public T min() throws NoSuchMethodException {
+    public T top() throws NoSuchMethodException {
         if (size < 1) {
             throw new NoSuchMethodException("heap is empty");
         }
         return (T) elements[1];
     }
 
-    public T deleteMin() throws NoSuchMethodException {
+    public T pop() throws NoSuchMethodException {
         T min = null;
         if (size < 1) {
             throw new NoSuchMethodException("heap is empty");
@@ -145,14 +147,14 @@ public class MinHeap<T extends Comparable<? super T>> {
         heap.insert(88);
         heap.insert(19);
 
-        System.out.println(heap.deleteMin());
-        System.out.println(heap.deleteMin());
-        System.out.println(heap.deleteMin());
-        System.out.println(heap.deleteMin());
-        System.out.println(heap.deleteMin());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
+        System.out.println(heap.pop());
 
         heap.insert(12);
-        System.out.println(heap.deleteMin());
+        System.out.println(heap.pop());
     }
 
 }

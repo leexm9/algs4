@@ -21,7 +21,7 @@ public class StringSort {
         System.out.println(Arrays.toString(strs));
 
         // 不等长字符串
-        strs = new String[]{"she", "sells", "the", "hantao", "daneng", "dou", "she", "like", "li", "min", "doudou", "a", "banana"};
+        strs = new String[]{"she", "sells", "the", "hantao", "daneng", "dou", "she", "like", "li", "top", "doudou", "a", "banana"};
         int max = strs[0].length();
         for (int i = 0; i < strs.length; i++) {
             if (strs[i].length() > max) {

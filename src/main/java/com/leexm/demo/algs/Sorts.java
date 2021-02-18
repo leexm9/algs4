@@ -206,7 +206,7 @@ public class Sorts {
             }
         }
 
-        // 计数数组，下标范围[0, max]
+        // 计数数组，下标范围[0, top]
         int[] count = new int[max + 1];
         // 遍历数组计数统计
         for (int i = 0; i < nums.length; i++) {

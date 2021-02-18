@@ -3,9 +3,7 @@ package com.leexm.demo.struct;
 import java.util.Comparator;
 
 /**
- * 最大堆：
- *  1、是一个完全二叉树
- *  2、堆中每一个节点的值都必须大于等于其子树中每个节点的值
+ * 最大堆： 1、是一个完全二叉树 2、堆中每一个节点的值都必须大于等于其子树中每个节点的值
  *
  * @author leexm
  * @date 2020-04-22 15:25
@@ -27,7 +25,7 @@ public class MaxHeap<T extends Comparable<? super T>> {
         this.elements = new Object[DEFAULT_CAPACITY];
     }
 
-    public MaxHeap(int capacity, Comparator<? super T> comparator) {
+    public MaxHeap(int capacity) {
         this.elements = new Object[capacity + 1];
     }
 

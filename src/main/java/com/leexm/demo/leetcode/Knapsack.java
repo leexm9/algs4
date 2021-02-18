@@ -27,7 +27,8 @@ public class Knapsack {
         int[] values = {3, 4, 5, 6};
         // System.out.println(knapsack.knapsack(weights, values, 4, 8));
         // System.out.println(knapsack.canPartition2(new int[]{1, 9, 3, 5}));
-        System.out.println(knapsack.findMaxForm(new String[] {"10", "0001", "111001", "1", "0"}, 5, 3));
+//        System.out.println(knapsack.findMaxForm(new String[] {"10", "0001", "111001", "1", "0"}, 5, 3));
+        System.out.println(knapsack.coinChange(new int[]{1, 2, 5}, 11));
     }
 
     /**

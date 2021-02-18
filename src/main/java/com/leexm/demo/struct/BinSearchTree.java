@@ -92,8 +92,8 @@ public class BinSearchTree<T extends Comparable<? super T>> {
                 per = min;
                 min = min.left;
             }
-            node.data = min.data;
             // 将右子树最小节点赋值给 node，下面从删除 node 变成删除右子树的最小节点了
+            node.data = min.data;
             node = min;
             parent = per;
             isLeft = true;

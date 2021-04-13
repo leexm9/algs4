@@ -1,7 +1,6 @@
 package com.leexm.demo.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 双指针问题
@@ -15,10 +14,8 @@ import java.util.Map;
 public class DoublePointer {
 
     public static void main(String[] args) {
-        String s = "aa", t = "aa";
         DoublePointer doublePointer = new DoublePointer();
-        String str = doublePointer.minWindow(s, t);
-        System.out.println(str);
+        System.out.println(doublePointer.lengthOfLongestSubstringKDistinct("audfaheofywea", 4));
     }
 
     /**
@@ -171,7 +168,137 @@ public class DoublePointer {
         } while (right < s.length() || left < s.length());
 
         return findStr;
+    }
 
+    /**
+     * 633. 平方数之和
+     * https://leetcode-cn.com/problems/sum-of-square-numbers/
+     *
+     * @param c
+     * @return
+     */
+    public boolean judgeSquareSum(int c) {
+        int left = 0;
+        int right = Double.valueOf(Math.sqrt(c)).intValue();
+        while (left <= right) {
+            int flag =  right * right - c + left * left;
+            if (flag == 0) {
+                return true;
+            } else if (flag > 0) {
+                right--;
+            } else {
+                left++;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 680. 验证回文字符串 Ⅱ
+     * https://leetcode-cn.com/problems/valid-palindrome-ii/
+     *
+     * @param s
+     * @return
+     */
+    public boolean validPalindrome(String s) {
+        return this.validPalindromeSkipNum(s, 0) < 2;
+    }
+
+    private int validPalindromeSkipNum(String s, int skip) {
+        if (skip > 1) {
+            return skip;
+        }
+        int left = 0;
+        int right = s.length() - 1;
+        while (left <= right && s.charAt(left) == s.charAt(right)) {
+            left++;
+            right--;
+        }
+        if (left < right) {
+            skip++;
+            skip = Math.min(this.validPalindromeSkipNum(s.substring(left + 1, right + 1), skip),
+                    this.validPalindromeSkipNum(s.substring(left, right), skip));
+        }
+        return skip;
+    }
+
+    /**
+     * 524. 通过删除字母匹配到字典里最长单词
+     * https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/
+     *
+     * @param s
+     * @param dictionary
+     * @return
+     */
+    public String findLongestWord(String s, List<String> dictionary) {
+        Collections.sort(dictionary, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if (o1.length() != o2.length()) {
+                    return o2.length() - o1.length();
+                } else {
+                    return o1.compareTo(o2);
+                }
+            }
+        });
+
+        for (String str : dictionary) {
+            if (this.isSubsequence(s, str)) {
+                return str;
+            }
+        }
+        return "";
+    }
+
+    public boolean isSubsequence(String s, String target) {
+        if (s.length() < target.length()) {
+            return false;
+        }
+        int j = 0;
+        for (int i = 0; i < s.length() && j < target.length(); i++) {
+            if (target.charAt(j) == s.charAt(i)) {
+                j++;
+            }
+        }
+        return j == target.length();
+    }
+
+
+    /**
+     * 340. 至多包含 K 个不同字符的最长子串
+     * https://leetcode-cn.com/problems/longest-substring-with-at-most-k-distinct-characters/
+     *
+     * @param s
+     * @param k
+     * @return
+     */
+    public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        int left = 0;
+        int diff = 0;
+        int longest = 0;
+        Map<Character, Integer> map = new HashMap<>();
+        for (int right = 0; right < s.length(); right++) {
+            char ch = s.charAt(right);
+            Integer num = map.getOrDefault(ch, 0);
+            if (num == 0) {
+                diff++;
+                map.put(ch, 1);
+            } else {
+                map.put(ch, num + 1);
+            }
+            if (diff == k) {
+                longest = Math.max(longest, right - left + 1);
+                System.out.println(s.substring(left, right + 1));
+            } else if (diff > k) {
+                char tmp = s.charAt(left);
+                num = map.get(tmp);
+                map.put(tmp, num - 1);
+                if (num == 1) {
+                    diff--;
+                }
+            }
+        }
+        return longest;
     }
 
 }
